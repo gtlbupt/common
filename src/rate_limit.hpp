@@ -18,7 +18,7 @@ public:
     // Returns true if the desired quantity is available in the
     // current period (< (max - used)). Once the given time passes the
     // end of the period, used is set to zero and more use in available.
-    bool CanUse() {
+    bool CanUse(size_t desired, double time) {
         return ((time > period_end_ && desired <= max_per_period_) ||
                 (used_in_period_ + desired) <= max_per_period_);
     }

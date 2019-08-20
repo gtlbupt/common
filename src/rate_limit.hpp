@@ -5,7 +5,7 @@ namespace base {
 
 class RateLimiter {
 public:
-    RateLimiter(size_t max, double period)
+    RateLimiter(size_t max, size_t period)
         : max_per_period_(max),
           period_length_(period),
           used_in_period_(0),
@@ -18,13 +18,13 @@ public:
     // Returns true if the desired quantity is available in the
     // current period (< (max - used)). Once the given time passes the
     // end of the period, used is set to zero and more use in available.
-    bool CanUse(size_t desired, double time) {
+    bool CanUse(size_t desired, size_t time) {
         return ((time > period_end_ && desired <= max_per_period_) ||
                 (used_in_period_ + desired) <= max_per_period_);
     }
     // Increment the quantity used this period. If past the end of a
     // period, a new period is started.
-    void Use(size_t used, double time) {
+    void Use(size_t used, size_t time) {
         if (time > period_end_) {
             period_start_ = time;
             period_end_ = time + period_length_;
@@ -43,10 +43,10 @@ public:
     }
 private:
     size_t max_per_period_;
-    double period_length_;
+    size_t period_length_;
     size_t used_in_period_;
-    double period_start_;
-    double period_end_;
+    size_t period_start_;
+    size_t period_end_;
 };
 
 }
